@@ -1,0 +1,2 @@
+Project Console: https://console.firebase.google.com/project/christine-840a1/overview
+Hosting URL: https://christine-840a1.web.app

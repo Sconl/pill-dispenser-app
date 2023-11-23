@@ -1,0 +1,56 @@
+<!-- views/settings.ejs -->
+<% include ./layout %>
+
+<div>
+    <h2>User Settings</h2>
+    <form action="/settings/update" method="post">
+        <label for="name">Name:</label>
+        <input type="text" id="name" name="name" value="<%= userProfile.name %>" required>
+
+        <label for="age">Age:</label>
+        <input type="number" id="age" name="age" value="<%= userProfile.age %>" required>
+
+        <label for="gender">Gender:</label>
+        <select id="gender" name="gender">
+            <option value="male" <%= userProfile.gender === 'male' ? 'selected' : '' %>>Male</option>
+            <option value="female" <%= userProfile.gender === 'female' ? 'selected' : '' %>>Female</option>
+            <option value="other" <%= userProfile.gender === 'other' ? 'selected' : '' %>>Other</option>
+        </select>
+
+        <label for="bloodType">Blood Type:</label>
+        <input type="text" id="bloodType" name="bloodType" value="<%= userProfile.bloodType %>" required>
+
+        <label for="allergies">Allergies (comma-separated):</label>
+        <input type="text" id="allergies" name="allergies" value="<%= userProfile.allergies.join(', ') %>" required>
+
+        <label for="dosage">Dosage (in mg):</label>
+        <input type="number" id="dosage" name="dosage" value="<%= userSettings.dosage %>" required>
+
+        <label for="medicine">Medicine:</label>
+        <input type="text" id="medicine" name="medicine" value="<%= userSettings.medicine %>" required>
+
+        <label for="set-time">Set Time:</label>
+        <input type="time" id="set-time" name="set_time" value="<%= userSettings.set_time %>" required>
+
+        <label for="theme">Theme:</label>
+        <select id="theme" name="theme">
+            <option value="light" <%= userSettings.theme === 'light' ? 'selected' : '' %>>Light</option>
+            <option value="dark" <%= userSettings.theme === 'dark' ? 'selected' : '' %>>Dark</option>
+        </select>
+
+        <button type="submit">Save</button>
+    </form>
+
+    <h2>Your Health Profile</h2>
+    <div>
+        <img src="/images/profile-image.jpg" alt="Profile Image" class="profile-image">
+        <ul>
+            <li><strong>Name:</strong> <%= userProfile.name %></li>
+            <li><strong>Age:</strong> <%= userProfile.age %></li>
+            <li><strong>Gender:</strong> <%= userProfile.gender %></li>
+            <li><strong>Blood Type:</strong> <%= userProfile.bloodType %></li>
+            <li><strong>Allergies:</strong> <%= userProfile.allergies.join(', ') %></li>
+        </ul>
+    </div>
+    <p>Keep your profile information up to date to ensure accurate health records.</p>
+</div>

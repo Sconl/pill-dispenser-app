@@ -1,0 +1,17 @@
+<!-- views/profile.ejs -->
+<% include ./layout %>
+
+<div>
+    <h2>Your Health Profile</h2>
+    <div>
+        <img src="/images/profile-image.jpg" alt="Profile Image" class="profile-image">
+        <ul>
+            <li><strong>Name:</strong> <%= userProfile.name %></li>
+            <li><strong>Age:</strong> <%= userProfile.age %></li>
+            <li><strong>Gender:</strong> <%= userProfile.gender %></li>
+            <li><strong>Blood Type:</strong> <%= userProfile.bloodType %></li>
+            <li><strong>Allergies:</strong> <%= userProfile.allergies.join(', ') %></li>
+        </ul>
+    </div>
+    <p>Keep your profile information up to date to ensure accurate health records.</p>
+</div>

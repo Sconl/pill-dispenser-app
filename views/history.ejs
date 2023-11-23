@@ -1,0 +1,15 @@
+<!-- views/history.ejs -->
+<% include ./layout %>
+
+<div>
+    <h2>Your Health History</h2>
+    <ul>
+        <% for (const entry of userHistory) { %>
+            <li>
+                <strong><%= entry.date %>:</strong>
+                <%= entry.event %> (<%= entry.details %>)
+            </li>
+        <% } %>
+    </ul>
+    <p>Review your health history to stay informed about your well-being.</p>
+</div>
