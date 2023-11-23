@@ -17,19 +17,37 @@
         document.getElementById('set_time').innerText = updatedSettings.set_time;
     });
 
-    // Function to handle form submission
+    // Function to handle form submission for both settings and profile
     function handleFormSubmit() {
         const dosage = document.getElementById('dosageInput').value;
         const medicine = document.getElementById('medicineInput').value;
         const set_time = document.getElementById('setTimeInput').value;
 
-        // Emit real-time update to all connected clients
+        // Emit real-time update to all connected clients for settings
         socket.emit('settingsUpdate', { dosage, medicine, set_time });
 
-        // Clear the form inputs
+        // Clear the form inputs for settings
         document.getElementById('dosageInput').value = '';
         document.getElementById('medicineInput').value = '';
         document.getElementById('setTimeInput').value = '';
+
+        // Fetch and emit real-time update for profile
+        const profileData = {
+            // Fetch other profile data from form inputs
+            name: document.getElementById('nameInput').value,
+            age: document.getElementById('ageInput').value,
+            gender: document.getElementById('genderInput').value,
+            // ... add more fields as needed
+        };
+
+        // Emit real-time update to all connected clients for profile
+        socket.emit('profileUpdate', profileData);
+
+        // Clear the form inputs for profile
+        document.getElementById('nameInput').value = '';
+        document.getElementById('ageInput').value = '';
+        document.getElementById('genderInput').value = '';
+        // ... clear other form inputs as needed
     }
 </script>
 
@@ -54,6 +72,27 @@
             <label for="setTimeInput">Set Time:</label>
             <input type="text" class="form-control" id="setTimeInput" placeholder="Enter set time">
         </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+
+    <hr>
+
+    <!-- Form to update profile -->
+    <h2>Edit Profile</h2>
+    <form onsubmit="event.preventDefault(); handleFormSubmit();">
+        <div class="form-group">
+            <label for="nameInput">Name:</label>
+            <input type="text" class="form-control" id="nameInput" placeholder="Enter your name">
+        </div>
+        <div class="form-group">
+            <label for="ageInput">Age:</label>
+            <input type="number" class="form-control" id="ageInput" placeholder="Enter your age">
+        </div>
+        <div class="form-group">
+            <label for="genderInput">Gender:</label>
+            <input type="text" class="form-control" id="genderInput" placeholder="Enter your gender">
+        </div>
+        <!-- Add more fields as needed -->
         <button type="submit" class="btn btn-primary">Save Changes</button>
     </form>
 </div>

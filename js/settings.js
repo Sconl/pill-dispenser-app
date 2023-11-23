@@ -6,8 +6,10 @@ const admin = require('firebase-admin');
 router.get('/settings', async (req, res) => {
     // Fetch user settings data from Firestore
     const userSettings = await getSettingsData('gkjq81JLsV9F8kcAeHpG');
+    // Fetch user profile data from Firestore
+    const userProfile = await getProfileData('X7Y9LeVsM6IfkXQV0LjI');
 
-    res.render('settings', { userSettings });
+    res.render('settings', { userSettings, userProfile });
 });
 
 router.post('/settings/update', async (req, res) => {
@@ -17,8 +19,22 @@ router.post('/settings/update', async (req, res) => {
     // Update the user settings in Firestore
     await updateSettingsData('gkjq81JLsV9F8kcAeHpG', { dosage, medicine, set_time });
 
-    // Emit real-time update to all connected clients
+    // Emit real-time update to all connected clients for settings
     io.emit('settingsUpdate', { dosage, medicine, set_time });
+
+    // Redirect back to the settings page
+    res.redirect('/settings');
+});
+
+router.post('/profile/update', async (req, res) => {
+    // Assuming you have a form with fields for profile
+    const { name, age, gender } = req.body;
+
+    // Update the user profile in Firestore
+    await updateProfileData('X7Y9LeVsM6IfkXQV0LjI', { name, age, gender });
+    
+    // Emit real-time update to all connected clients for profile
+    io.emit('profileUpdate', { name, age, gender });
 
     // Redirect back to the settings page
     res.redirect('/settings');
@@ -39,6 +55,25 @@ async function updateSettingsData(userId, data) {
     const settingsRef = firestore.collection('settings').doc(userId);
 
     await settingsRef.set(data, { merge: true });
+
+    return true;
+}
+
+// Function to get user profile data from Firestore
+async function getProfileData(userId) {
+    const firestore = admin.firestore();
+    const profileRef = firestore.collection('users').doc(userId);
+    const snapshot = await profileRef.get();
+
+    return snapshot.data();
+}
+
+// Function to update user profile data in Firestore
+async function updateProfileData(userId, data) {
+    const firestore = admin.firestore();
+    const profileRef = firestore.collection('users').doc(userId);
+
+    await profileRef.set(data, { merge: true });
 
     return true;
 }
