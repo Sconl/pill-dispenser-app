@@ -8,6 +8,40 @@
     <title>Your Web Application</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyId9TI2S+XZ5nZlDCB+6aL5j53paTKPSD" crossorigin="anonymous">
     <link rel="stylesheet" href="/styles/style.css"> <!-- Link to the custom stylesheet -->
+    <script>
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            
+            // Format time with leading zeros
+            hours = hours < 10 ? '0' + hours : hours;
+            minutes = minutes < 10 ? '0' + minutes : minutes;
+            seconds = seconds < 10 ? '0' + seconds : seconds;
+
+            // Display the current time
+            document.getElementById('current-time').innerHTML = hours + ':' + minutes + ':' + seconds;
+
+            // Get medication time from settings (replace this with actual logic)
+            var medicationTime = '12:00 PM'; // Replace with actual logic
+
+            // Display the next medication time
+            document.getElementById('next-medication-time').innerHTML = 'Next Medication: ' + calculateNextMedicationTime(medicationTime);
+        }
+
+        function calculateNextMedicationTime(currentMedicationTime) {
+            // Replace this logic with your calculation based on settings
+            // For simplicity, let's add 8 hours for the next medication time
+            var nextMedicationTime = new Date(currentMedicationTime);
+            nextMedicationTime.setHours(nextMedicationTime.getHours() + 8);
+
+            return nextMedicationTime.toLocaleTimeString('en-US');
+        }
+
+        // Update the clock every second
+        setInterval(updateClock, 1000);
+    </script>
 </head>
 
 <body>
@@ -25,11 +59,42 @@
                 <li class="nav-item">
                     <a class="nav-link" href="/history">History</a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="/profile">Profile</a>
+                </li>
             </ul>
+        </div>
+        <div class="navbar-nav ml-auto">
+            <% if (!user) { %>
+                <!-- Links for authentication when not authenticated -->
+                <a class="nav-link" href="/auth/signup">Signup</a>
+                <a class="nav-link" href="/auth/login">Login</a>
+            <% } else { %>
+                <!-- Welcome message, profile link, and logout link when authenticated -->
+                <p class="nav-link">Welcome <%= user.email %>!</p>
+                <a class="nav-link" href="/profile">Profile</a>
+                <a class="nav-link" href="/auth/logout">Logout</a>
+            <% } %>
         </div>
     </nav>
 
     <div class="container-fluid">
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <h2>Current Time</h2>
+                <p id="current-time"></p>
+                <h2>Next Medication Time</h2>
+                <p id="next-medication-time"></p>
+            </div>
+            <div class="col-md-6">
+                <!-- Main body section displaying user profile information dynamically -->
+                <h2>User Profile</h2>
+                <p>User Name: <%= user.name %></p>
+                <p>User Age: <%= user.age %></p>
+                <p>User Gender: <%= user.gender %></p>
+                <!-- Add more profile information as needed -->
+            </div>
+        </div>
         <!-- Content will be dynamically inserted here based on the view -->
         <%- body %>
     </div>
