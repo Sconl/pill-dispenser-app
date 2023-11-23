@@ -2,6 +2,7 @@
 const express = require('express');
 const router = express.Router();
 const admin = require('firebase-admin');
+const io = require('socket.io')(); // Import socket.io instance
 
 router.get('/settings', async (req, res) => {
     // Fetch user settings data from Firestore
@@ -14,13 +15,13 @@ router.get('/settings', async (req, res) => {
 
 router.post('/settings/update', async (req, res) => {
     // Assuming you have a form with fields for settings
-    const { dosage, medicine, set_time } = req.body;
+    const { dosage, medicine, set_time, time_interval } = req.body;
 
     // Update the user settings in Firestore
-    await updateSettingsData('gkjq81JLsV9F8kcAeHpG', { dosage, medicine, set_time });
+    await updateSettingsData('gkjq81JLsV9F8kcAeHpG', { dosage, medicine, set_time, time_interval });
 
     // Emit real-time update to all connected clients for settings
-    io.emit('settingsUpdate', { dosage, medicine, set_time });
+    io.emit('settingsUpdate', { dosage, medicine, set_time, time_interval });
 
     // Redirect back to the settings page
     res.redirect('/settings');

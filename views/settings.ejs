@@ -13,6 +13,7 @@
         document.getElementById('dosage').innerText = updatedSettings.dosage;
         document.getElementById('medicine').innerText = updatedSettings.medicine;
         document.getElementById('set_time').innerText = updatedSettings.set_time;
+        document.getElementById('time_interval').innerText = updatedSettings.time_interval; // Added line for time_interval
     });
 
     // Function to handle form submission for both settings and profile
@@ -20,14 +21,16 @@
         const dosage = document.getElementById('dosageInput').value;
         const medicine = document.getElementById('medicineInput').value;
         const set_time = document.getElementById('setTimeInput').value;
+        const time_interval = document.getElementById('timeIntervalInput').value; // Added line for time_interval
 
         // Emit real-time update to all connected clients for settings
-        socket.emit('settingsUpdate', { dosage, medicine, set_time });
+        socket.emit('settingsUpdate', { dosage, medicine, set_time, time_interval }); // Updated line for time_interval
 
         // Clear the form inputs for settings
         document.getElementById('dosageInput').value = '';
         document.getElementById('medicineInput').value = '';
         document.getElementById('setTimeInput').value = '';
+        document.getElementById('timeIntervalInput').value = ''; // Added line for time_interval
 
         // Fetch and emit real-time update for profile
         const profileData = {
@@ -52,12 +55,13 @@
 <div class="container mt-4">
     <h2 class="mb-4">User Settings</h2>
 
-    <!-- Display the current dosage, medicine, and set_time -->
+    <!-- Display the current dosage, medicine, set_time, and time_interval -->
     <div class="card mb-4">
         <div class="card-body">
             <p class="mb-1"><strong>Dosage:</strong> <span id="dosage"><%= userSettings.dosage %></span></p>
             <p class="mb-1"><strong>Medicine:</strong> <span id="medicine"><%= userSettings.medicine %></span></p>
             <p class="mb-1"><strong>Set Time:</strong> <span id="set_time"><%= userSettings.set_time %></span></p>
+            <p class="mb-1"><strong>Time Interval:</strong> <span id="time_interval"><%= userSettings.time_interval %></span></p> <!-- Added line for time_interval -->
         </div>
     </div>
 
@@ -74,6 +78,10 @@
         <div class="form-group">
             <label for="setTimeInput">Set Time:</label>
             <input type="text" class="form-control rounded-pill" id="setTimeInput" placeholder="Enter set time">
+        </div>
+        <div class="form-group">
+            <label for="timeIntervalInput">Time Interval:</label> <!-- Added line for time_interval -->
+            <input type="text" class="form-control rounded-pill" id="timeIntervalInput" placeholder="Enter time interval">
         </div>
         <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
     </form>
