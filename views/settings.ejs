@@ -1,6 +1,8 @@
 <!-- views/settings.ejs -->
 <% include ./layout %>
 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyId9TI2S+XZ5nZlDCB+6aL5j53paTKPSD" crossorigin="anonymous">
+
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 <script>
     const socket = io();
@@ -10,19 +12,52 @@
         console.log('Real-time settings update received:', updatedSettings);
 
         // Update the UI with the new settings data
-        // For example, update the displayed dosage, medicine, or set_time
         document.getElementById('dosage').innerText = updatedSettings.dosage;
         document.getElementById('medicine').innerText = updatedSettings.medicine;
         document.getElementById('set_time').innerText = updatedSettings.set_time;
     });
 
-    // Your existing settings view content
-    <div>
-        <h2>User Settings</h2>
-        <!-- Display the current dosage, medicine, and set_time -->
-        <p><strong>Dosage:</strong> <span id="dosage"><%= userSettings.dosage %></span></p>
-        <p><strong>Medicine:</strong> <span id="medicine"><%= userSettings.medicine %></span></p>
-        <p><strong>Set Time:</strong> <span id="set_time"><%= userSettings.set_time %></span></p>
-        <!-- ... (rest of your HTML) ... -->
-    </div>
+    // Function to handle form submission
+    function handleFormSubmit() {
+        const dosage = document.getElementById('dosageInput').value;
+        const medicine = document.getElementById('medicineInput').value;
+        const set_time = document.getElementById('setTimeInput').value;
+
+        // Emit real-time update to all connected clients
+        socket.emit('settingsUpdate', { dosage, medicine, set_time });
+
+        // Clear the form inputs
+        document.getElementById('dosageInput').value = '';
+        document.getElementById('medicineInput').value = '';
+        document.getElementById('setTimeInput').value = '';
+    }
 </script>
+
+<div class="container mt-4">
+    <h2>User Settings</h2>
+    <!-- Display the current dosage, medicine, and set_time -->
+    <p><strong>Dosage:</strong> <span id="dosage"><%= userSettings.dosage %></span></p>
+    <p><strong>Medicine:</strong> <span id="medicine"><%= userSettings.medicine %></span></p>
+    <p><strong>Set Time:</strong> <span id="set_time"><%= userSettings.set_time %></span></p>
+
+    <!-- Form to update settings -->
+    <form onsubmit="event.preventDefault(); handleFormSubmit();">
+        <div class="form-group">
+            <label for="dosageInput">Dosage:</label>
+            <input type="text" class="form-control" id="dosageInput" placeholder="Enter dosage">
+        </div>
+        <div class="form-group">
+            <label for="medicineInput">Medicine:</label>
+            <input type="text" class="form-control" id="medicineInput" placeholder="Enter medicine name">
+        </div>
+        <div class="form-group">
+            <label for="setTimeInput">Set Time:</label>
+            <input type="text" class="form-control" id="setTimeInput" placeholder="Enter set time">
+        </div>
+        <button type="submit" class="btn btn-primary">Save Changes</button>
+    </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMN9iE2uR6pOV1iTKAumL0CCx9X1P7jYYRTl9ofdrL2IbBTDQTfYYB2z7/COhSHF" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyId9TI2S+XZ5nZlDCB+6aL5j53paTKPSD" crossorigin="anonymous"></script>
