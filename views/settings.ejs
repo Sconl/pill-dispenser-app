@@ -1,8 +1,6 @@
 <!-- views/settings.ejs -->
 <% include ./layout %>
 
-<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyId9TI2S+XZ5nZlDCB+6aL5j53paTKPSD" crossorigin="anonymous">
-
 <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
 <script>
     const socket = io();
@@ -52,51 +50,52 @@
 </script>
 
 <div class="container mt-4">
-    <h2>User Settings</h2>
+    <h2 class="mb-4">User Settings</h2>
+
     <!-- Display the current dosage, medicine, and set_time -->
-    <p><strong>Dosage:</strong> <span id="dosage"><%= userSettings.dosage %></span></p>
-    <p><strong>Medicine:</strong> <span id="medicine"><%= userSettings.medicine %></span></p>
-    <p><strong>Set Time:</strong> <span id="set_time"><%= userSettings.set_time %></span></p>
+    <div class="card mb-4">
+        <div class="card-body">
+            <p class="mb-1"><strong>Dosage:</strong> <span id="dosage"><%= userSettings.dosage %></span></p>
+            <p class="mb-1"><strong>Medicine:</strong> <span id="medicine"><%= userSettings.medicine %></span></p>
+            <p class="mb-1"><strong>Set Time:</strong> <span id="set_time"><%= userSettings.set_time %></span></p>
+        </div>
+    </div>
 
     <!-- Form to update settings -->
     <form onsubmit="event.preventDefault(); handleFormSubmit();">
         <div class="form-group">
             <label for="dosageInput">Dosage:</label>
-            <input type="text" class="form-control" id="dosageInput" placeholder="Enter dosage">
+            <input type="text" class="form-control rounded-pill" id="dosageInput" placeholder="Enter dosage">
         </div>
         <div class="form-group">
             <label for="medicineInput">Medicine:</label>
-            <input type="text" class="form-control" id="medicineInput" placeholder="Enter medicine name">
+            <input type="text" class="form-control rounded-pill" id="medicineInput" placeholder="Enter medicine name">
         </div>
         <div class="form-group">
             <label for="setTimeInput">Set Time:</label>
-            <input type="text" class="form-control" id="setTimeInput" placeholder="Enter set time">
+            <input type="text" class="form-control rounded-pill" id="setTimeInput" placeholder="Enter set time">
         </div>
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
     </form>
 
     <hr>
 
     <!-- Form to update profile -->
-    <h2>Edit Profile</h2>
+    <h2 class="mb-4">Edit Profile</h2>
     <form onsubmit="event.preventDefault(); handleFormSubmit();">
         <div class="form-group">
             <label for="nameInput">Name:</label>
-            <input type="text" class="form-control" id="nameInput" placeholder="Enter your name">
+            <input type="text" class="form-control rounded-pill" id="nameInput" placeholder="Enter your name">
         </div>
         <div class="form-group">
             <label for="ageInput">Age:</label>
-            <input type="number" class="form-control" id="ageInput" placeholder="Enter your age">
+            <input type="number" class="form-control rounded-pill" id="ageInput" placeholder="Enter your age">
         </div>
         <div class="form-group">
             <label for="genderInput">Gender:</label>
-            <input type="text" class="form-control" id="genderInput" placeholder="Enter your gender">
+            <input type="text" class="form-control rounded-pill" id="genderInput" placeholder="Enter your gender">
         </div>
         <!-- Add more fields as needed -->
-        <button type="submit" class="btn btn-primary">Save Changes</button>
+        <button type="submit" class="btn btn-primary rounded-pill">Save Changes</button>
     </form>
 </div>
-
-<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.3/dist/umd/popper.min.js" integrity="sha384-eMN9iE2uR6pOV1iTKAumL0CCx9X1P7jYYRTl9ofdrL2IbBTDQTfYYB2z7/COhSHF" crossorigin="anonymous"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js" integrity="sha384-B4gt1jrGC7Jh4AgTPSdUtOBvfO8sh+WyId9TI2S+XZ5nZlDCB+6aL5j53paTKPSD" crossorigin="anonymous"></script>

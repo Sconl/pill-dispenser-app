@@ -1,0 +1,17 @@
+/* public/styles/style.css */
+/* Add your custom styles here */
+
+/* Add rounded corners to buttons and form fields */
+.rounded-pill {
+  border-radius: 50px;
+}
+
+/* Add subtle box-shadow to cards */
+.card {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: box-shadow 0.3s ease-in-out;
+}
+
+.card:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
