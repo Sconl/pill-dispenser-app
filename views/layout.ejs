@@ -25,10 +25,12 @@
 
             // Get medication time from settings (replace this with actual logic)
             var medicationTime = '<%= userSettings.set_time %>'; // Replace with actual logic
+            var userSettingsTimeInterval = '<%= userSettings.time_interval %>';
 
             // Calculate and display the next medication time
-            var nextMedicationTime = calculateNextMedicationTime(medicationTime, <%= userSettings.time_interval %>);
+            var nextMedicationTime = calculateNextMedicationTime(medicationTime, userSettingsTimeInterval);
             document.getElementById('next-medication-time').innerHTML = 'Next Medication: ' + nextMedicationTime;
+
         }
 
         function calculateNextMedicationTime(currentMedicationTime, timeInterval) {

@@ -1,16 +1,28 @@
-// app.js
+// Import required modules
 const express = require('express');
+const cors = require('cors');
+// ... rest of your imports ...
+
+const app = express();
+
+// Enable All CORS Requests
+app.use(cors());
+const path = require('path');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
 const serviceAccount = require('./_assets/christine-840a1-firebase-adminsdk-djrfl-6ef78469e1.json');
 const http = require('http');
 const socketIo = require('socket.io');
 const session = require('express-session');
-const crypto = require('crypto'); // Node.js crypto module for secret key generation
+const crypto = require('crypto');
 
-const app = express();
+// Set the port for the server
 const port = process.env.PORT || 3000;
+
+// Create an HTTP server using Express
 const server = http.createServer(app);
+
+// Set up Socket.io for real-time updates
 const io = socketIo(server);
 
 // Firebase configuration
@@ -33,7 +45,7 @@ admin.initializeApp({
 
 // Configure middleware
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('public')); // Serve static files like CSS
+app.use(express.static(path.join(__dirname, 'public'))); // Serve static files like CSS
 
 // Session middleware with secret key generation
 app.use(session({
@@ -42,17 +54,26 @@ app.use(session({
   saveUninitialized: true,
   cookie: { secure: true } // Use secure cookie in production (requires HTTPS)
 }));
+
+// Set the view engine to EJS
 app.set('view engine', 'ejs');
 
-// Import route files
+// Set views directory
+app.set('views', path.join(__dirname, 'views'));
+
+// Default route renders 'layout.ejs'
+app.get('/', (req, res) => {
+  res.render('layout', { title: 'Your App Title' });
+});
+
+// Import and use route files
 const settingsRoutes = require('./settings');
 const profileRoutes = require('./profile');
-const { router: authRoutes, isAuthenticated } = require('./routes/auth'); // Import authentication routes
+const authRoutes = require('./routes/auth');
 
-// Use routes
-app.use('/', settingsRoutes);
+app.use('/settings', settingsRoutes);
 app.use('/profile', profileRoutes);
-app.use('/auth', authRoutes); // Use authentication routes
+app.use('/auth', authRoutes);
 
 // Real-time updates with Socket.io
 io.on('connection', (socket) => {
@@ -69,7 +90,7 @@ io.on('connection', (socket) => {
   });
 });
 
-// Start the server
+// Start the server and listen on the specified port
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
