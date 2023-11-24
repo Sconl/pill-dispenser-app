@@ -71,8 +71,13 @@ app.get('/', (req, res) => {
 });
 
 // Use routes
+console.log('Using settingsRoutes...');
 app.use('/settings', settingsRoutes);
+
+console.log('Using profileRoutes...');
 app.use('/profile', profileRoutes);
+
+console.log('Using authRoutes...');
 app.use('/auth', authRoutes); // Use authentication routes
 
 // Real-time updates with Socket.io
