@@ -1,15 +1,27 @@
 <!-- views/history.ejs -->
 <% include ./layout %>
 
-<div>
-    <h2>Your Health History</h2>
-    <ul>
-        <% for (const entry of userHistory) { %>
-            <li>
-                <strong><%= entry.date %>:</strong>
-                <%= entry.event %> (<%= entry.details %>)
-            </li>
-        <% } %>
-    </ul>
-    <p>Review your health history to stay informed about your well-being.</p>
+<div class="container mt-4">
+    <h2>Medication History</h2>
+
+    <!-- Display medication history -->
+    <% history.forEach(entry => { %>
+        <div class="card mb-2">
+            <div class="card-body">
+                <p class="mb-1"><strong>Time:</strong> <%= entry.time %></p>
+                <p class="mb-1"><strong>Dosage:</strong> <%= entry.dosage %></p>
+                <p class="mb-1"><strong>Medicine:</strong> <%= entry.medicine %></p>
+            </div>
+        </div>
+    <% }); %>
+
+    <!-- Display Firestore history -->
+    <% firestoreData.forEach(entry => { %>
+        <div class="card mb-2">
+            <div class="card-body">
+                <p class="mb-1"><strong>Date:</strong> <%= entry.date %></p>
+                <p class="mb-1"><strong>Event:</strong> <%= entry.event %></p>
+            </div>
+        </div>
+    <% }); %>
 </div>
