@@ -78,7 +78,7 @@ console.log('Using profileRoutes...');
 app.use('/profile', profileRoutes);
 
 console.log('Using authRoutes...');
-app.use('/auth', authRoutes); // Use authentication routes
+app.use('/auth', auth); // Use authentication routes
 
 // Real-time updates with Socket.io
 io.on('connection', (socket) => {
