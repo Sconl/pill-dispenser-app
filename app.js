@@ -1,12 +1,6 @@
 // Import required modules
 const express = require('express');
 const cors = require('cors');
-// ... rest of your imports ...
-
-const app = express();
-
-// Enable All CORS Requests
-app.use(cors());
 const path = require('path');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
@@ -15,6 +9,16 @@ const http = require('http');
 const socketIo = require('socket.io');
 const session = require('express-session');
 const crypto = require('crypto');
+
+// Import route files
+const settingsRoutes = require('./settings');
+const profileRoutes = require('./profile');
+const authRoutes = require('./routes/auth');
+
+const app = express();
+
+// Enable All CORS Requests
+app.use(cors());
 
 // Set the port for the server
 const port = process.env.PORT || 3000;
@@ -66,14 +70,10 @@ app.get('/', (req, res) => {
   res.render('layout', { title: 'Your App Title' });
 });
 
-// Import and use route files
-const settingsRoutes = require('./settings');
-const profileRoutes = require('./profile');
-const authRoutes = require('./routes/auth');
-
+// Use routes
 app.use('/settings', settingsRoutes);
 app.use('/profile', profileRoutes);
-app.use('/auth', authRoutes);
+app.use('/auth', authRoutes); // Use authentication routes
 
 // Real-time updates with Socket.io
 io.on('connection', (socket) => {
