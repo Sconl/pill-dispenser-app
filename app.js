@@ -2,9 +2,11 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const admin = require('firebase-admin');
-const serviceAccount = require('./_assets/christine-840a1-firebase-adminsdk-djrfl-6ef78469e1.json'); // Update the path
+const serviceAccount = require('./_assets/christine-840a1-firebase-adminsdk-djrfl-6ef78469e1.json');
 const http = require('http');
 const socketIo = require('socket.io');
+const session = require('express-session');
+const crypto = require('crypto'); // Node.js crypto module for secret key generation
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -32,6 +34,14 @@ admin.initializeApp({
 // Configure middleware
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.static('public')); // Serve static files like CSS
+
+// Session middleware with secret key generation
+app.use(session({
+  secret: generateSecretKey(),
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: true } // Use secure cookie in production (requires HTTPS)
+}));
 app.set('view engine', 'ejs');
 
 // Import route files
@@ -63,3 +73,8 @@ io.on('connection', (socket) => {
 server.listen(port, () => {
   console.log(`Server is running on http://localhost:${port}`);
 });
+
+// Function to generate a random secret key
+function generateSecretKey() {
+  return crypto.randomBytes(64).toString('hex');
+}
