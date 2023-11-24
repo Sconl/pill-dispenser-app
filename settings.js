@@ -2,7 +2,9 @@
 const express = require('express');
 const router = express.Router();
 const admin = require('firebase-admin');
-const io = require('socket.io')(); // Import socket.io instance
+
+// Remove the 'socket.io' initialization from here
+// const io = require('socket.io')(); // Import socket.io instance
 
 router.get('/settings', async (req, res) => {
     // Fetch user settings data from Firestore
@@ -21,7 +23,8 @@ router.post('/settings/update', async (req, res) => {
     await updateSettingsData('gkjq81JLsV9F8kcAeHpG', { dosage, medicine, set_time, time_interval });
 
     // Emit real-time update to all connected clients for settings
-    io.emit('settingsUpdate', { dosage, medicine, set_time, time_interval });
+    // Assuming 'io' is initialized at the application level in app.js
+    req.app.get('io').emit('settingsUpdate', { dosage, medicine, set_time, time_interval });
 
     // Redirect back to the settings page
     res.redirect('/settings');
@@ -35,7 +38,8 @@ router.post('/profile/update', async (req, res) => {
     await updateProfileData('X7Y9LeVsM6IfkXQV0LjI', { name, age, gender });
     
     // Emit real-time update to all connected clients for profile
-    io.emit('profileUpdate', { name, age, gender });
+    // Assuming 'io' is initialized at the application level in app.js
+    req.app.get('io').emit('profileUpdate', { name, age, gender });
 
     // Redirect back to the settings page
     res.redirect('/settings');
