@@ -1,13 +1,13 @@
 {
   "name": "christine_project_2023",
   "version": "1.0.0",
-  "description": "",
+  "description": "a smart pill dispenser web application",
   "main": "app.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "keywords": [],
-  "author": "",
+  "author": "Sconl Peter",
   "license": "ISC",
   "dependencies": {
     "body-parser": "^1.20.2",
