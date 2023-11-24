@@ -9,6 +9,8 @@ const http = require('http');
 const socketIo = require('socket.io');
 const session = require('express-session');
 const crypto = require('crypto');
+const auth = require('./routes/auth');
+
 
 // Import route files
 const settingsRoutes = require('./settings');
