@@ -9,13 +9,9 @@ const http = require('http');
 const socketIo = require('socket.io');
 const session = require('express-session');
 const crypto = require('crypto');
-const auth = require('./routes/auth');
 
-
-// Import route files
-const settingsRoutes = require('./settings');
-const profileRoutes = require('./profile');
-const authRoutes = require('./routes/auth');
+// Import routes
+const auth = require('./routes/auth').router;
 
 const app = express();
 
@@ -72,15 +68,8 @@ app.get('/', (req, res) => {
   res.render('layout', { title: 'Your App Title' });
 });
 
-// Use routes
-console.log('Using settingsRoutes...');
-app.use('/settings', settingsRoutes);
-
-console.log('Using profileRoutes...');
-app.use('/profile', profileRoutes);
-
-console.log('Using authRoutes...');
-app.use('/auth', auth); // Use authentication routes
+// Use authentication routes
+app.use('/auth', auth);
 
 // Real-time updates with Socket.io
 io.on('connection', (socket) => {
